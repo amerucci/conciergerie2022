@@ -12,7 +12,7 @@
 <body>
     <?php
     session_start();
-    $_SESSION['nom_user'] = "toto";
+    
     if (isset($_SESSION['nom_user'])) { ?>
         <div class="uk-container">
             <table class="uk-table uk-table-hover uk-table-divider">
