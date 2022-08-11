@@ -2,14 +2,15 @@
 <?php include("./part/header.php"); ?>
 <div class="container">
     <div class="login">
+        <h1>Se connecter</h1>
         <form action="function.php" method="post">
         <div class="uk-margin">
-            <input class="uk-input" type="text" placeholder="identifiant">
+            <input class="uk-input" type="text" placeholder="identifiant" name="username" required>
         </div>
         <div class="uk-margin">
-            <input class="uk-input" type="password" placeholder="Mot de passe">
+            <input class="uk-input" type="password" placeholder="Mot de passe"  name="password" required>
         </div>
-        <input type="submit" name="action" value="se connecter" class="uk-button uk-button-primary">
+        <button type="submit" name="action" value="login" class="uk-button uk-button-primary">Se connecter</button>
         </form>
     </div>
 </div>
