@@ -1,7 +1,8 @@
 <?php $pageTitle = "DashBoard - Le Magellan"; ?>
 <?php include("./part/header.php"); ?>
+<?php include("./function.php"); ?>
 <?php
-session_start();
+
 
 
 if (isset($_SESSION['nom_user'])) { ?>
@@ -36,19 +37,22 @@ if (isset($_SESSION['nom_user'])) { ?>
                         <input class="uk-input" type="number" min="0" placeholder="Etage" name="step" required>
                     </div>
                     <div class="uk-margin">
-                        <input list="navigateurs" id="monNavigateur" name="monNavigateur" class="uk-input" placeholder="Type d'intervention" />
+                        <input list="navigateurs" id="monNavigateur" name="interventionType" class="uk-input" placeholder="Type d'intervention" />
                         <datalist id="navigateurs">
-                            <option value="Chrome">
-                            <option value="Firefox">
-                            <option value="Internet Explorer">
-                            <option value="Opera">
-                            <option value="Safari">
-                            <option value="Microsoft Edge">
+                            <?php $types =  getTypeIntervention(); 
+                            for($i=0; $i<count($types); $i++){
+                                echo ' <option value="'.$types[$i]["name_type"].'">'; 
+                               
+                            }
+                            
+                            
+                            ?>
+                 
                         </datalist>
                     </div>
 
                     <div class="uk-margin">
-                        <input class="uk-input" type="date" placeholder="Date d'intevention" name="step" required>
+                        <input class="uk-input" type="date" placeholder="Date d'intevention" name="date" required>
 
                     </div>
 
@@ -98,21 +102,19 @@ if (isset($_SESSION['nom_user'])) { ?>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Table Data</td>
-                    <td>Table Data</td>
-                    <td>Table Data</td>
-                </tr>
-                <tr>
-                    <td>Table Data</td>
-                    <td>Table Data</td>
-                    <td>Table Data</td>
-                </tr>
-                <tr>
-                    <td>Table Data</td>
-                    <td>Table Data</td>
-                    <td>Table Data</td>
-                </tr>
+               <?php $intervention = getAllIntervention();
+               for ($i = 0; $i < count($intervention); $i++){
+                echo "<tr>
+                <td>".getNameTypeIntervention($intervention[$i]['id_intervention'])."</td>
+                <td>".$intervention[$i]['step_intervention']."</td>
+                <td>".$intervention[$i]['date_intervention']."</td>
+                <td></td>
+                </tr>";
+               }
+               
+               
+               
+               ?>
             </tbody>
         </table>
     </div>
