@@ -64,7 +64,7 @@ if (isset($_SESSION['nom_user'])) { ?>
                     <div class="uk-margin">
                         <input list="navigateurs" id="monNavigateur" name="interventionType" class="uk-input" placeholder="Type d'intervention" />
                         <datalist id="navigateurs">
-                            <?php 
+                            <?php $types =  getTypeIntervention();
                             for ($i = 0; $i < count($types); $i++) {
                                 echo ' <option value="' . $types[$i]["name_type"] . '">';
                             }
@@ -126,10 +126,10 @@ if (isset($_SESSION['nom_user'])) { ?>
                 </tr>
             </thead>
             <tbody>
-                <?php $intervention = getAllIntervention();
+                <?php 
                 for ($i = 0; $i < count($intervention); $i++) {
                     echo "<tr>
-                <td>" . getNameTypeIntervention($intervention[$i]['id_intervention']) . "</td>
+                <td>" . getNameTypeIntervention($intervention[$i]['type_intervention']) . "</td>
                 <td>" . $intervention[$i]['step_intervention'] . "</td>
                 <td>" . $intervention[$i]['date_intervention'] . "</td>
                 <td></td>

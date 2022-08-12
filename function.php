@@ -131,6 +131,32 @@ function getfillInterventions(){
 
 function filter(){
 
+    $req = array();
+    $value = array();  
+
+    if(!empty($_GET['filter_intervention'])){
+        array_push($req, 'AND type_intervention = ""?""');
+        array_push($value, $_GET['filter_intervention']);
+    }
+
+    if(!empty($_GET['filter_step'])){
+        array_push($req, 'AND step_intervention = ""?""');
+        array_push($value, $_GET['filter_step']);
+    }
+
+    if(!empty($_GET['filter_date'])){
+        array_push($req, 'AND date_intervention = ""?""');
+        array_push($value, $_GET['filter_date']);
+    }
+
+    $request = implode(" ", $req);
+        $search = connect()->prepare('SELECT * FROM interventions WHERE 1=1  '.$request.'');
+        $search->execute($value);
+        //$search->debugDumpParams();
+        $resultSearch = $search->fetchAll();
+        return $resultSearch;
+
+
 }
 
 
@@ -153,11 +179,11 @@ if (isset($_POST['action']) && !empty($_POST['username'])  && !empty($_POST['pas
     login();
 }
 
-if($_GET['action']=="filter"){
-    $types = " ";
+if(isset($_GET['action']) && $_GET['action']=="filter"){
+    $intervention =  filter();
 }
 else{
-    $types =  getTypeIntervention();
+    $intervention =  getAllIntervention();
 }
 
 
