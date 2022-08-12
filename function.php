@@ -7,54 +7,57 @@ session_start();
 // echo password_hash('magellan',  PASSWORD_DEFAULT);
 
 
-function connect(){
+function connect()
+{
     try {
         $db = new PDO('mysql:host=localhost;dbname=conciergerie', 'root', 'root');
         return $db;
-        }
-    catch (PDOException $e) {
+    } catch (PDOException $e) {
         print "Erreur !: " . $e->getMessage() . "<br/>";
         die();
     }
 }
 
 
-function login(){
+function login()
+{
     $findUser = connect()->prepare('SELECT * FROM user WHERE login_user = :login_user');
     $findUser->bindParam(':login_user', $_POST['username'], PDO::PARAM_STR);
     $findUser->execute();
-    $user = $findUser->fetch();  
+    $user = $findUser->fetch();
     if ($user && password_verify($_POST['password'], $user['password_user'])) {
-        $_SESSION['nom_user'] = $user; 
-        header('Location: ./index.php');  
-        
+        $_SESSION['nom_user'] = $user;
+        header('Location: ./index.php');
     } else {
         echo 'Invalid username or password';
     }
-
-
 }
 
 //INTERVENTION TYPE
 
-function addType(){
+function addType()
+{
 
 
     $ajouter = connect()->prepare('INSERT INTO type_intervention (name_type) VALUES (:name_type)');
-    $ajouter->bindParam(':name_type', $_POST['type'], 
-    PDO::PARAM_STR);
+    $ajouter->bindParam(
+        ':name_type',
+        $_POST['type'],
+        PDO::PARAM_STR
+    );
     $estceok = $ajouter->execute();
     $ajouter->debugDumpParams();
-        if($estceok){
-            header('Location: ./index.php');   
-        } else {
-            echo 'Error';
-        }
+    if ($estceok) {
+        header('Location: ./index.php');
+    } else {
+        echo 'Error';
     }
+}
 
 //ADDING INTEVENTION
 
-function addIntervention(){
+function addIntervention()
+{
     $theIdIntervention = getIdTypeIntervention();
     echo $theIdIntervention;
     $ajouter = connect()->prepare('INSERT INTO interventions (type_intervention, step_intervention, date_intervention ) VALUES (:type_intervention, :step_intervention, :date_intervention )');
@@ -64,16 +67,17 @@ function addIntervention(){
     $estceok = $ajouter->execute();
     $ajouter->debugDumpParams();
 
-        if($estceok){
-            header('Location: ./index.php');   
-        } else {
-            echo 'Error';
-        }
+    if ($estceok) {
+        header('Location: ./index.php');
+    } else {
+        echo 'Error';
     }
+}
 
 // GET ALL INTERVENTION
 
-function getAllIntervention(){
+function getAllIntervention()
+{
     $interventions = connect()->query('SELECT * FROM interventions');
     $interventions = $interventions->fetchAll();
     return $interventions;
@@ -82,54 +86,80 @@ function getAllIntervention(){
 
 //GET ALL INTERVENTION TYPE
 
-function getTypeIntervention(){
+function getTypeIntervention()
+{
     $type = connect()->query('SELECT * FROM type_intervention');
     $typeArray = $type->fetchAll();
-    var_dump(    $typeArray );
+    var_dump($typeArray);
     return $typeArray;
 }
 
 // GET ID INTERVENTION TYPE
 
-function getIdTypeIntervention(){
+function getIdTypeIntervention()
+{
     $what = $_POST['interventionType'];
     $idIntervention = connect()->prepare('SELECT * FROM type_intervention WHERE name_type = :name_type');
     $idIntervention->bindParam(':name_type', $what, PDO::PARAM_STR);
     $idIntervention->execute();
     $idIntervention->debugDumpParams();
-    $theIdIntervention = $idIntervention->fetch();  
+    $theIdIntervention = $idIntervention->fetch();
     var_dump($theIdIntervention);
     return $theIdIntervention['id_type'];
 }
 
-function getNameTypeIntervention($id){
+// GET NAME OF INTERVENTION
+
+function getNameTypeIntervention($id)
+{
     $nameIntervention = connect()->prepare('SELECT * FROM type_intervention WHERE id_type = :id_type');
     $nameIntervention->bindParam(':id_type', $id, PDO::PARAM_STR);
     $nameIntervention->execute();
-    //$nameIntervention->debugDumpParams();
-    $theNameIntervention = $nameIntervention->fetch();  
+    $theNameIntervention = $nameIntervention->fetch();
     return $theNameIntervention['name_type'];
 }
 
+// FILL INTERVENTION SEARCH FORM
 
-if(isset($_POST['interventionType']) && $_POST['interventionType'] == "ajouter"){
+function getfillInterventions(){
+    $fillIntervention = connect()->query('SELECT * FROM type_intervention');
+    $fillIntervention = $fillIntervention->fetchAll();
+    return $fillIntervention;
+}
+
+// FILTER FORM
+
+function filter(){
+
+}
+
+
+
+// ACTIONS
+
+if (isset($_POST['interventionType']) && $_POST['interventionType'] == "ajouter") {
     addType();
 }
 
-if(isset($_POST['intervention']) && $_POST['intervention'] == "ajouter"){
+if (isset($_POST['intervention']) && $_POST['intervention'] == "ajouter") {
     addIntervention();
 }
 
-
-
-if(isset($_POST['action']) && !empty($_POST['username'])  && !empty($_POST['password'])  && $_POST['action']=="register"){
+if (isset($_POST['action']) && !empty($_POST['username'])  && !empty($_POST['password'])  && $_POST['action'] == "register") {
     register();
 }
 
-if(isset($_POST['action']) && !empty($_POST['username'])  && !empty($_POST['password'])  && $_POST['action']=="login"){
+if (isset($_POST['action']) && !empty($_POST['username'])  && !empty($_POST['password'])  && $_POST['action'] == "login") {
     login();
 }
-   
+
+if($_GET['action']=="filter"){
+    $types = " ";
+}
+else{
+    $types =  getTypeIntervention();
+}
+
 
 
 

@@ -23,6 +23,31 @@ if (isset($_SESSION['nom_user'])) { ?>
             <button class="uk-button uk-button-default uk-margin-small-right" type="button" uk-toggle="target: #modal-close-default-type">Ajouter type</button>
 
         </div>
+        <form action="" method="get">
+            <?php $fillIntervention = getfillInterventions(); ?></php>
+
+            <div class="uk-margin">
+                <select class="uk-select" name="filter_intervention">
+                    <option value="" disabled selected>Intervention</option>
+                    <?php
+                    for ($i = 0; $i < count($fillIntervention); $i++) {
+                        echo "<option value='" . $fillIntervention[$i]['id_type'] . "'>" . $fillIntervention[$i]['name_type'] . "</option>";
+                    }
+                    ?>
+                </select>
+            </div>
+        
+            <div class="uk-margin">
+
+                <input class="uk-input" type="number" min="0" max="5" placeholder="Etage" name="filter_step" >
+            </div>
+            <div class="uk-margin">
+                <input class="uk-input" type="date" placeholder="Date d'intevention" name="filter_date">
+
+            </div>
+
+            <button type="submit" name="action" value="filter" class="uk-button uk-button-primary">Filtrer</button>
+        </form>
     </div>
 
     <div class="uk-container">
@@ -34,20 +59,19 @@ if (isset($_SESSION['nom_user'])) { ?>
                 <h2 class="uk-modal-title">Ajouter une intervention</h2>
                 <form action="function.php" method="post">
                     <div class="uk-margin">
-                        <input class="uk-input" type="number" min="0" placeholder="Etage" name="step" required>
+                        <input class="uk-input" type="number" min="0" max="5" placeholder="Etage" name="step" required>
                     </div>
                     <div class="uk-margin">
                         <input list="navigateurs" id="monNavigateur" name="interventionType" class="uk-input" placeholder="Type d'intervention" />
                         <datalist id="navigateurs">
-                            <?php $types =  getTypeIntervention(); 
-                            for($i=0; $i<count($types); $i++){
-                                echo ' <option value="'.$types[$i]["name_type"].'">'; 
-                               
+                            <?php 
+                            for ($i = 0; $i < count($types); $i++) {
+                                echo ' <option value="' . $types[$i]["name_type"] . '">';
                             }
-                            
-                            
+
+
                             ?>
-                 
+
                         </datalist>
                     </div>
 
@@ -102,19 +126,19 @@ if (isset($_SESSION['nom_user'])) { ?>
                 </tr>
             </thead>
             <tbody>
-               <?php $intervention = getAllIntervention();
-               for ($i = 0; $i < count($intervention); $i++){
-                echo "<tr>
-                <td>".getNameTypeIntervention($intervention[$i]['id_intervention'])."</td>
-                <td>".$intervention[$i]['step_intervention']."</td>
-                <td>".$intervention[$i]['date_intervention']."</td>
+                <?php $intervention = getAllIntervention();
+                for ($i = 0; $i < count($intervention); $i++) {
+                    echo "<tr>
+                <td>" . getNameTypeIntervention($intervention[$i]['id_intervention']) . "</td>
+                <td>" . $intervention[$i]['step_intervention'] . "</td>
+                <td>" . $intervention[$i]['date_intervention'] . "</td>
                 <td></td>
                 </tr>";
-               }
-               
-               
-               
-               ?>
+                }
+
+
+
+                ?>
             </tbody>
         </table>
     </div>
