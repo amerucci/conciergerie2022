@@ -18,12 +18,14 @@ if (isset($_SESSION['nom_user'])) { ?>
 
             <a href="./logout.php" class="uk-button uk-button-secondary">Déconnection</a>
 
-            <button class="uk-button uk-button-default uk-margin-small-right" type="button" uk-toggle="target: #modal-close-default">Ajouter</button>
 
-            <button class="uk-button uk-button-default uk-margin-small-right" type="button" uk-toggle="target: #modal-close-default-type">Ajouter type</button>
+
+
+            
+
 
         </div>
-        <form action="" method="get">
+        <form action="" method="get" class="uk-margin">
             <?php $fillIntervention = getfillInterventions(); ?></php>
 
             <div class="uk-margin">
@@ -95,11 +97,6 @@ if (isset($_SESSION['nom_user'])) { ?>
                     <div class="uk-margin">
                         <input class="uk-input" type="text" placeholder="Type d'intevention" name="type" required>
                     </div>
-
-
-
-
-
                     <button type="submit" name="interventionType" value="ajouter" class="uk-button uk-button-primary">Ajouter</button>
                 </form>
             </div>
@@ -115,8 +112,28 @@ if (isset($_SESSION['nom_user'])) { ?>
         </div>
 
 
-        <h2><span class="ion-speedometer"></span> Dashboard</h2>
+        <h2><span class="ion-speedometer"></span> Les interventions réalisées au <?php
+        
+    
+// Date en français
+$jour = getdate();
+
+$semaine = array(" Dimanche "," Lundi "," Mardi "," Mercredi "," Jeudi ",
+" vendredi "," samedi ");
+$mois =array(1=>" janvier "," février "," mars "," avril "," mai "," juin ",
+" juillet "," août "," septembre "," octobre "," novembre "," décembre ");
+// Avec getdate()
+echo $semaine[$jour['wday']]
+,$jour['mday'], $mois[$jour['mon']], $jour['year'],"
+";
+
+
+        
+        ?> </h2>
         <p>
+        <button class="uk-button uk-button-default uk-margin-small-right" type="button" uk-toggle="target: #modal-close-default">Ajouter une intervention</button>
+
+        <button class="uk-button uk-button-default uk-margin-small-right" type="button" uk-toggle="target: #modal-close-default-type">Ajouter type d'intervention</button>
         <table class="uk-table uk-table-hover uk-table-divider">
             <thead>
                 <tr>
@@ -131,7 +148,7 @@ if (isset($_SESSION['nom_user'])) { ?>
                     echo "<tr>
                 <td>" . getNameTypeIntervention($intervention[$i]['type_intervention']) . "</td>
                 <td>" . $intervention[$i]['step_intervention'] . "</td>
-                <td>" . $intervention[$i]['date_intervention'] . "</td>
+                <td>" . rearrangeDate($intervention[$i]['date_intervention'] ). "</td>
                 <td></td>
                 </tr>";
                 }

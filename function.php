@@ -121,7 +121,8 @@ function getNameTypeIntervention($id)
 
 // FILL INTERVENTION SEARCH FORM
 
-function getfillInterventions(){
+function getfillInterventions()
+{
     $fillIntervention = connect()->query('SELECT * FROM type_intervention');
     $fillIntervention = $fillIntervention->fetchAll();
     return $fillIntervention;
@@ -129,34 +130,41 @@ function getfillInterventions(){
 
 // FILTER FORM
 
-function filter(){
+function filter()
+{
 
     $req = array();
-    $value = array();  
+    $value = array();
 
-    if(!empty($_GET['filter_intervention'])){
+    if (!empty($_GET['filter_intervention'])) {
         array_push($req, 'AND type_intervention = ""?""');
         array_push($value, $_GET['filter_intervention']);
     }
 
-    if(!empty($_GET['filter_step'])){
+    if (!empty($_GET['filter_step'])) {
         array_push($req, 'AND step_intervention = ""?""');
         array_push($value, $_GET['filter_step']);
     }
 
-    if(!empty($_GET['filter_date'])){
+    if (!empty($_GET['filter_date'])) {
         array_push($req, 'AND date_intervention = ""?""');
         array_push($value, $_GET['filter_date']);
     }
 
     $request = implode(" ", $req);
-        $search = connect()->prepare('SELECT * FROM interventions WHERE 1=1  '.$request.'');
-        $search->execute($value);
-        //$search->debugDumpParams();
-        $resultSearch = $search->fetchAll();
-        return $resultSearch;
+    $search = connect()->prepare('SELECT * FROM interventions WHERE 1=1  ' . $request . '');
+    $search->execute($value);
+    //$search->debugDumpParams();
+    $resultSearch = $search->fetchAll();
+    return $resultSearch;
+}
 
+// REARANGE DATE
 
+function rearrangeDate($date){
+    $dates  = $date;
+    $datePicies = explode("-", $dates);
+    return $datePicies[2].'/'.$datePicies[1].'/'.$datePicies[0];
 }
 
 
@@ -179,10 +187,9 @@ if (isset($_POST['action']) && !empty($_POST['username'])  && !empty($_POST['pas
     login();
 }
 
-if(isset($_GET['action']) && $_GET['action']=="filter"){
+if (isset($_GET['action']) && $_GET['action'] == "filter") {
     $intervention =  filter();
-}
-else{
+} else {
     $intervention =  getAllIntervention();
 }
 
