@@ -133,13 +133,14 @@ echo $semaine[$jour['wday']]
         <p>
         <button class="uk-button uk-button-default uk-margin-small-right" type="button" uk-toggle="target: #modal-close-default">Ajouter une intervention</button>
 
-        <button class="uk-button uk-button-default uk-margin-small-right" type="button" uk-toggle="target: #modal-close-default-type">Ajouter type d'intervention</button>
+        <button class="uk-button uk-button-default uk-margin-small-right" type="button" uk-toggle="target: #modal-close-default-type">Ajouter un <strong>type</strong> d'intervention</button>
         <table class="uk-table uk-table-hover uk-table-divider">
             <thead>
                 <tr>
                     <th>Type intervention</th>
                     <th>Etage intervention</th>
                     <th>Date intervention</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -149,7 +150,9 @@ echo $semaine[$jour['wday']]
                 <td>" . getNameTypeIntervention($intervention[$i]['type_intervention']) . "</td>
                 <td>" . $intervention[$i]['step_intervention'] . "</td>
                 <td>" . rearrangeDate($intervention[$i]['date_intervention'] ). "</td>
-                <td></td>
+                <td>
+                <a href=''><span uk-icon='pencil'></span></a>
+                <a href=''><span uk-icon='trash'></span></a></td>
                 </tr>";
                 }
 
