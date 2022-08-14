@@ -167,6 +167,22 @@ function rearrangeDate($date){
     return $datePicies[2].'/'.$datePicies[1].'/'.$datePicies[0];
 }
 
+function delete(){
+    $supprimer = connect()->prepare('DELETE From interventions WHERE id_intervention=:id');
+    $supprimer->bindParam(':id', $_GET['id']);
+    $supprimer->execute();
+
+    header('Location: ./index.php');
+ }
+
+function update(){
+    $modifier = connect()->prepare('UPDATE interventions SET date_int = :date, step_int=:etage, name_int=:intervention WHERE id_int = :id');
+    $modifier->bindParam(':date', $_GET['date']);
+    $modifier->bindParam(':etage', $_GET['etage']);
+    $modifier->bindParam(':intervention', $_GET['intervention']);
+    $modifier->bindParam(':id', $_GET['id']);
+    $modifier->execute();
+ }
 
 
 // ACTIONS
@@ -193,6 +209,10 @@ if (isset($_GET['action']) && $_GET['action'] == "filter") {
     $intervention =  getAllIntervention();
 }
 
+
+if (isset($_GET['action']) && $_GET['action'] == "delete") {
+    delete();
+}
 
 
 

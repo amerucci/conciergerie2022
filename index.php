@@ -102,6 +102,20 @@ if (isset($_SESSION['nom_user'])) { ?>
             </div>
         </div>
 
+        <!-- Modal suppression -->
+
+        <div id="modal-close-default-delete" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <button class="uk-modal-close-default" type="button" uk-close></button>
+                <h2 class="uk-modal-title">Supprimer une intervention</h2>
+                <p>Etes-vous sûr de vouloir supprimer cette intervention</p>
+                <a href="?action=delete&id=10" class='idToDelete'>Oui</a>
+                <span class="uk-modal-close-default uk-icon uk-close" style="position:relative; top:0; right:0; padding:0">Non</span>
+            </div>
+        </div>
+
+        <!-- End Modal suppression -->
+
         <div class="uk-section-small uk-section-default header">
 
             <h1><span class="ion-speedometer"></span> Dashboard</h1>
@@ -151,8 +165,8 @@ echo $semaine[$jour['wday']]
                 <td>" . $intervention[$i]['step_intervention'] . "</td>
                 <td>" . rearrangeDate($intervention[$i]['date_intervention'] ). "</td>
                 <td>
-                <a href=''><span uk-icon='pencil'></span></a>
-                <a href=''><span uk-icon='trash'></span></a></td>
+                <span uk-toggle='target: #modal-close-default-delete' data-id='".$intervention[$i]['id_intervention']."'><span uk-icon='pencil'></span></span>
+                <span uk-toggle='target: #modal-close-default-delete' class='deleteBtn' data-id='".$intervention[$i]['id_intervention']."'><span uk-icon='trash'></span></span></td>
                 </tr>";
                 }
 
