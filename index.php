@@ -123,6 +123,7 @@ if (isset($_SESSION['nom_user'])) { ?>
                 <button class="uk-modal-close-default" type="button" uk-close></button>
                 <h2 class="uk-modal-title">Modifier une intervention</h2>
                 <form action="function.php" method="post">
+                    <input type="hidden" id="id_update" name="id" value="">
                     <div class="uk-margin">
                         <input class="uk-input" type="number" min="0" max="5" placeholder="Etage" name="step" id="step_update" value="" required>
                     </div>
@@ -147,7 +148,7 @@ if (isset($_SESSION['nom_user'])) { ?>
 
 
 
-                    <button type="submit" name="intervention" value="ajouter" class="uk-button uk-button-primary">Ajouter</button>
+                    <button type="submit" name="intervention" value="update" class="uk-button uk-button-primary">Mettre à jour</button>
                 </form>
             </div>
         </div>

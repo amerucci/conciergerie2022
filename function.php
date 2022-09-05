@@ -83,16 +83,6 @@ function getAllIntervention()
     return $interventions;
 }
 
-// GET AND INTERVENTION
-
-function getIntervention($id)
-{
-    $intervention = connect()->query('SELECT * FROM interventions WHERE id_intervention = :id');
-    $intervention->bindParam(':id', $id);
-    $intervention = $intervention->fetchAll();
-    return $intervention;
-}
-
 
 //GET ALL INTERVENTION TYPE
 
@@ -194,12 +184,17 @@ function delete(){
  // UPDATE INTERVENTION
 
 function update(){
-    $modifier = connect()->prepare('UPDATE interventions SET date_int = :date, step_int=:etage, name_int=:intervention WHERE id_int = :id');
-    $modifier->bindParam(':date', $_GET['date']);
-    $modifier->bindParam(':etage', $_GET['etage']);
-    $modifier->bindParam(':intervention', $_GET['intervention']);
-    $modifier->bindParam(':id', $_GET['id']);
+    $theIdIntervention = getIdTypeIntervention();
+    echo $theIdIntervention;
+    $modifier = connect()->prepare('UPDATE interventions SET date_intervention = :date, step_intervention=:etage, type_intervention=:intervention WHERE id_intervention = :id');
+    $modifier->bindParam(':date', $_POST['date']);
+    $modifier->bindParam(':etage', $_POST['step']);
+    $modifier->bindParam(':intervention', $theIdIntervention);
+    $modifier->bindParam(':id', $_POST['id']);
     $modifier->execute();
+    //$modifier->debugDumpParams();
+    
+ header('Location: ./index.php');
  }
 
 
@@ -212,6 +207,11 @@ if (isset($_POST['interventionType']) && $_POST['interventionType'] == "ajouter"
 if (isset($_POST['intervention']) && $_POST['intervention'] == "ajouter") {
     addIntervention();
 }
+
+if (isset($_POST['intervention']) && $_POST['intervention'] == "update") {
+    update();
+}
+
 
 if (isset($_POST['action']) && !empty($_POST['username'])  && !empty($_POST['password'])  && $_POST['action'] == "register") {
     register();

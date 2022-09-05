@@ -15,6 +15,7 @@ link.forEach(element => {
     element.addEventListener('click', function(){
         var theId = this.getAttribute("data-id");
 
+        document.querySelector("#id_update").value=this.getAttribute("data-id");
         document.querySelector("#step_update").value=this.getAttribute("data-step");
         document.querySelector("#interventions-update").value=this.getAttribute("data-type");
         document.querySelector("#date-update").value=this.getAttribute("data-date");
