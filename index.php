@@ -116,6 +116,44 @@ if (isset($_SESSION['nom_user'])) { ?>
 
         <!-- End Modal suppression -->
 
+            <!-- Modal Update -->
+
+            <div id="modal-close-default-update" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <button class="uk-modal-close-default" type="button" uk-close></button>
+                <h2 class="uk-modal-title">Modifier une intervention</h2>
+                <form action="function.php" method="post">
+                    <div class="uk-margin">
+                        <input class="uk-input" type="number" min="0" max="5" placeholder="Etage" name="step" id="step_update" value="" required>
+                    </div>
+                    <div class="uk-margin">
+                        <input list="interventions" id="interventions-update" name="interventionType" class="uk-input" placeholder="Type d'intervention" />
+                        <datalist id="interventions">
+                            <?php $types =  getTypeIntervention();
+                            for ($i = 0; $i < count($types); $i++) {
+                                echo ' <option value="' . $types[$i]["name_type"] . '">';
+                            }
+
+
+                            ?>
+
+                        </datalist>
+                    </div>
+
+                    <div class="uk-margin">
+                        <input class="uk-input" type="date" placeholder="Date d'intevention" name="date" id="date-update" required>
+
+                    </div>
+
+
+
+                    <button type="submit" name="intervention" value="ajouter" class="uk-button uk-button-primary">Ajouter</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- End Modal update -->
+
         <div class="uk-section-small uk-section-default header">
 
             <h1><span class="ion-speedometer"></span> Dashboard</h1>
@@ -165,7 +203,14 @@ echo $semaine[$jour['wday']]
                 <td>" . $intervention[$i]['step_intervention'] . "</td>
                 <td>" . rearrangeDate($intervention[$i]['date_intervention'] ). "</td>
                 <td>
-                <span uk-toggle='target: #modal-close-default-delete' data-id='".$intervention[$i]['id_intervention']."'><span uk-icon='pencil'></span></span>
+                <span uk-toggle='target: #modal-close-default-update' class='updateBtn' 
+                
+                data-id='".$intervention[$i]['id_intervention']."'
+                data-type='".getNameTypeIntervention($intervention[$i]['type_intervention']) ."'
+                data-step='". $intervention[$i]['step_intervention'] ."'
+                data-date='".$intervention[$i]['date_intervention']."'
+                
+                '><span uk-icon='pencil'></span></span>
                 <span uk-toggle='target: #modal-close-default-delete' class='deleteBtn' data-id='".$intervention[$i]['id_intervention']."'><span uk-icon='trash'></span></span></td>
                 </tr>";
                 }

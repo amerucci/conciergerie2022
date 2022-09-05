@@ -83,6 +83,16 @@ function getAllIntervention()
     return $interventions;
 }
 
+// GET AND INTERVENTION
+
+function getIntervention($id)
+{
+    $intervention = connect()->query('SELECT * FROM interventions WHERE id_intervention = :id');
+    $intervention->bindParam(':id', $id);
+    $intervention = $intervention->fetchAll();
+    return $intervention;
+}
+
 
 //GET ALL INTERVENTION TYPE
 
@@ -134,8 +144,11 @@ function filter()
 {
 
     $req = array();
-    $value = array();
+    //$req = ['AND type_intervention = ?', 'AND step_intervention = ?']
+    $value = array(' ');
+    //$value=['changer ampoule', '2']
 
+   
     if (!empty($_GET['filter_intervention'])) {
         array_push($req, 'AND type_intervention = ""?""');
         array_push($value, $_GET['filter_intervention']);
@@ -151,8 +164,9 @@ function filter()
         array_push($value, $_GET['filter_date']);
     }
 
+  
     $request = implode(" ", $req);
-    $search = connect()->prepare('SELECT * FROM interventions WHERE 1=1  ' . $request . '');
+    $search = connect()->prepare('SELECT * FROM interventions WHERE 1  ' . $request . '');
     $search->execute($value);
     //$search->debugDumpParams();
     $resultSearch = $search->fetchAll();
@@ -167,6 +181,8 @@ function rearrangeDate($date){
     return $datePicies[2].'/'.$datePicies[1].'/'.$datePicies[0];
 }
 
+// DELETE INTERVENTION
+
 function delete(){
     $supprimer = connect()->prepare('DELETE From interventions WHERE id_intervention=:id');
     $supprimer->bindParam(':id', $_GET['id']);
@@ -174,6 +190,8 @@ function delete(){
 
     header('Location: ./index.php');
  }
+
+ // UPDATE INTERVENTION
 
 function update(){
     $modifier = connect()->prepare('UPDATE interventions SET date_int = :date, step_int=:etage, name_int=:intervention WHERE id_int = :id');
