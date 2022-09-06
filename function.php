@@ -35,23 +35,40 @@ function login()
 
 //INTERVENTION TYPE
 
+
+
 function addType()
 {
 
-
-    $ajouter = connect()->prepare('INSERT INTO type_intervention (name_type) VALUES (:name_type)');
-    $ajouter->bindParam(
-        ':name_type',
-        $_POST['type'],
-        PDO::PARAM_STR
-    );
-    $estceok = $ajouter->execute();
-    $ajouter->debugDumpParams();
-    if ($estceok) {
-        header('Location: ./index.php');
-    } else {
-        echo 'Error';
+    $check = connect()->prepare('SELECT * FROM type_intervention WHERE name_type = "'.$_POST['type'].'"');
+    $check->execute();
+    $exist = $check->fetch();
+    if($exist !=false){
+        echo "Ce type existe déja";
+        header( "Refresh:2; url=./index.php", true, 303);
     }
+    else{
+
+
+     
+
+        $ajouter = connect()->prepare('INSERT INTO type_intervention (name_type) VALUES (:name_type)');
+        $ajouter->bindParam(
+            ':name_type',
+            $_POST['type'],
+            PDO::PARAM_STR
+        );
+        $estceok = $ajouter->execute();
+        $ajouter->debugDumpParams();
+        if ($estceok) {
+            header('Location: ./index.php');
+        } else {
+            echo 'Error';
+        }
+    }
+
+
+   
 }
 
 //ADDING INTEVENTION
