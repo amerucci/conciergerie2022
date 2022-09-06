@@ -90,7 +90,6 @@ function getTypeIntervention()
 {
     $type = connect()->query('SELECT * FROM type_intervention');
     $typeArray = $type->fetchAll();
-    var_dump($typeArray);
     return $typeArray;
 }
 
@@ -134,9 +133,7 @@ function filter()
 {
 
     $req = array();
-    //$req = ['AND type_intervention = ?', 'AND step_intervention = ?']
-    $value = array(' ');
-    //$value=['changer ampoule', '2']
+    $value = array();
 
    
     if (!empty($_GET['filter_intervention'])) {
@@ -173,10 +170,12 @@ function rearrangeDate($date){
 
 // DELETE INTERVENTION
 
-function delete(){
-    $supprimer = connect()->prepare('DELETE From interventions WHERE id_intervention=:id');
+function delete($what, $champ){
+    $supprimer = connect()->prepare('DELETE From '.$what.' WHERE '.$champ.'=:id');
     $supprimer->bindParam(':id', $_GET['id']);
     $supprimer->execute();
+    // $supprimer->debugDumpParams();
+    // die;
 
     header('Location: ./index.php');
  }
@@ -229,7 +228,7 @@ if (isset($_GET['action']) && $_GET['action'] == "filter") {
 
 
 if (isset($_GET['action']) && $_GET['action'] == "delete") {
-    delete();
+    delete($_GET['what'], $_GET['col']);
 }
 
 

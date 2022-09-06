@@ -6,7 +6,9 @@ console.log(link);
 link.forEach(element => {
     element.addEventListener('click', function(){
         var theId = this.getAttribute("data-id");
-        document.querySelector('.idToDelete').href = "?action=delete&id="+theId;
+        var theType = this.getAttribute("data-what");
+        var theCol = this.getAttribute("data-col");
+        document.querySelector('.idToDelete').href = "?action=delete&id="+theId+"&what="+theType+"&col="+theCol;
 
     })
     })

@@ -102,6 +102,38 @@ if (isset($_SESSION['nom_user'])) { ?>
             </div>
         </div>
 
+        <div id="modal-close-default-alltype" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <button class="uk-modal-close-default" type="button" uk-close></button>
+                <h2 class="uk-modal-title">Tous les types d'intervention</h2>
+                <table class="uk-table uk-table-hover uk-table-divider">
+            <thead>
+                <tr>
+                    <th>Type intervention</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php $types =  getTypeIntervention();
+                            for ($i = 0; $i < count($types); $i++) {
+                                echo "<tr>
+                                <td>".$types[$i]["name_type"]."</td>
+                                <td>
+                                <span uk-toggle='target: #modal-close-default-delete' class='deleteBtn' data-id='".$types[$i]['id_type']." 'data-what='type_intervention' data-col='id_type''><span uk-icon='trash'></span></span>
+                                </td>
+                                </tr>";
+                            }
+
+
+                            ?>
+            </tbody>
+                </table>
+              
+
+            
+            </div>
+        </div>
+
         <!-- Modal suppression -->
 
         <div id="modal-close-default-delete" uk-modal>
@@ -132,7 +164,8 @@ if (isset($_SESSION['nom_user'])) { ?>
                         <datalist id="interventions">
                             <?php $types =  getTypeIntervention();
                             for ($i = 0; $i < count($types); $i++) {
-                                echo ' <option value="' . $types[$i]["name_type"] . '">';
+                                echo ' <option value="' . $types[$i]["name_type"] . '">'
+                                ;
                             }
 
 
@@ -187,6 +220,9 @@ echo $semaine[$jour['wday']]
         <button class="uk-button uk-button-default uk-margin-small-right" type="button" uk-toggle="target: #modal-close-default">Ajouter une intervention</button>
 
         <button class="uk-button uk-button-default uk-margin-small-right" type="button" uk-toggle="target: #modal-close-default-type">Ajouter un <strong>type</strong> d'intervention</button>
+
+        <button class="uk-button uk-button-default uk-margin-small-right" type="button" uk-toggle="target: #modal-close-default-alltype">Tous les types d'intervention</button>
+
         <table class="uk-table uk-table-hover uk-table-divider">
             <thead>
                 <tr>
@@ -212,7 +248,7 @@ echo $semaine[$jour['wday']]
                 data-date='".$intervention[$i]['date_intervention']."'
                 
                 '><span uk-icon='pencil'></span></span>
-                <span uk-toggle='target: #modal-close-default-delete' class='deleteBtn' data-id='".$intervention[$i]['id_intervention']."'><span uk-icon='trash'></span></span></td>
+                <span uk-toggle='target: #modal-close-default-delete' class='deleteBtn' data-id='".$intervention[$i]['id_intervention']."' data-what='interventions' data-col='id_intervention' '><span uk-icon='trash'></span></span></td>
                 </tr>";
                 }
 
